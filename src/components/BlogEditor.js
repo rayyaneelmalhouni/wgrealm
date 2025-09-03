@@ -12,31 +12,31 @@ const extensions = [StarterKit];
 
 // Menu bar component
 function MenuBar({ editor }) {
-  if (!editor) return null;
-
   const editorState = useEditorState({
     editor,
     selector: (ctx) => ({
-      isBold: ctx.editor.isActive("bold") ?? false,
-      canBold: ctx.editor.can().chain().toggleBold().run() ?? false,
-      isItalic: ctx.editor.isActive("italic") ?? false,
-      canItalic: ctx.editor.can().chain().toggleItalic().run() ?? false,
-      isStrike: ctx.editor.isActive("strike") ?? false,
-      canStrike: ctx.editor.can().chain().toggleStrike().run() ?? false,
-      isCode: ctx.editor.isActive("code") ?? false,
-      canCode: ctx.editor.can().chain().toggleCode().run() ?? false,
-      canClearMarks: ctx.editor.can().chain().unsetAllMarks().run() ?? false,
-      isParagraph: ctx.editor.isActive("paragraph") ?? false,
-      isHeading1: ctx.editor.isActive("heading", { level: 1 }) ?? false,
-      isHeading2: ctx.editor.isActive("heading", { level: 2 }) ?? false,
-      isBulletList: ctx.editor.isActive("bulletList") ?? false,
-      isOrderedList: ctx.editor.isActive("orderedList") ?? false,
-      isCodeBlock: ctx.editor.isActive("codeBlock") ?? false,
-      isBlockquote: ctx.editor.isActive("blockquote") ?? false,
-      canUndo: ctx.editor.can().chain().undo().run() ?? false,
-      canRedo: ctx.editor.can().chain().redo().run() ?? false,
+      isBold: ctx.editor?.isActive("bold") ?? false,
+      canBold: ctx.editor?.can().chain().toggleBold().run() ?? false,
+      isItalic: ctx.editor?.isActive("italic") ?? false,
+      canItalic: ctx.editor?.can().chain().toggleItalic().run() ?? false,
+      isStrike: ctx.editor?.isActive("strike") ?? false,
+      canStrike: ctx.editor?.can().chain().toggleStrike().run() ?? false,
+      isCode: ctx.editor?.isActive("code") ?? false,
+      canCode: ctx.editor?.can().chain().toggleCode().run() ?? false,
+      canClearMarks: ctx.editor?.can().chain().unsetAllMarks().run() ?? false,
+      isParagraph: ctx.editor?.isActive("paragraph") ?? false,
+      isHeading1: ctx.editor?.isActive("heading", { level: 1 }) ?? false,
+      isHeading2: ctx.editor?.isActive("heading", { level: 2 }) ?? false,
+      isBulletList: ctx.editor?.isActive("bulletList") ?? false,
+      isOrderedList: ctx.editor?.isActive("orderedList") ?? false,
+      isCodeBlock: ctx.editor?.isActive("codeBlock") ?? false,
+      isBlockquote: ctx.editor?.isActive("blockquote") ?? false,
+      canUndo: ctx.editor?.can().chain().undo().run() ?? false,
+      canRedo: ctx.editor?.can().chain().redo().run() ?? false,
     }),
   });
+
+  if (!editor) return null;
 
   const buttonStyle = (active) => ({
     padding: "4px 8px",
@@ -171,7 +171,7 @@ function MenuBar({ editor }) {
 }
 
 // Main editor component
-const BlogEditor = forwardRef((props, ref) => {
+const BlogEditor = forwardRef(function BlogEditor(props, ref) {
   const editor = useEditor({
     extensions,
     content: `

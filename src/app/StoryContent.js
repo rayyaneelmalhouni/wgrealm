@@ -82,10 +82,13 @@ export default function StoryContent() {
               The Books We Wrote
             </h2>
             <div className="font-poppins text-sm mb-2 sm:text-left sm:text-[16px] md:text-lg lg:text-xl">
-              <p>So far, we’ve published three books: </p>
-              <p>'Beneath the Table' by Ghita Ayasswaman</p>
-              <p> 'صرخة 'and 'عهدنا وعد 'By Wiame Aitsalh</p>
-              <p>For now, they’re available as PDF editions.</p>
+              <p>So far, we&apos;ve published three books: </p>
+              <p>&apos;Beneath the Table&apos; by Ghita Ayasswaman</p>
+              <p>
+                {" "}
+                &apos;صرخة &apos;and &apos;عهدنا وعد &apos;By Wiame Aitsalh
+              </p>
+              <p>For now, they&apos;re available as PDF editions.</p>
               <Link href={"/books"} className="text-secondary underline">
                 Explore Our Books
               </Link>
