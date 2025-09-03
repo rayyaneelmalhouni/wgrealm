@@ -52,7 +52,7 @@ export const submitComment = async (
     });
     setComments((prev) => [...prev, blogComment]);
     setBlog((prev) => ({
-      prev,
+      ...prev,
       commentsId: [...(prev.commentsId || []), blogComment.$id],
     }));
   } catch (error) {

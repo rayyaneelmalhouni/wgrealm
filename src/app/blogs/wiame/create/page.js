@@ -22,6 +22,12 @@ export async function generateMetadata({ params }) {
       images: [ogImage],
       card: "summary_large_image",
     },
+
+    icons: {
+      icon: "/defaultFavicon.png",
+      shortcut: "/shortcutFavicon.png",
+      apple: "/appleFavicon.png",
+    },
   };
 }
 
