@@ -59,7 +59,7 @@ function BlogsPageContent() {
       <div className="max-w-6xl w-full px-5 md:px-8 lg:px-12 ">
         <p className="font-rubik text-sm pointer-cursor">
           <Link href="/blogs/wiame" className="text-primary underline ">
-            وئام اية صلاح
+            وئام أيت صالح
           </Link>
           ,<span> </span>
           <Link href="/blogs/ghita" className="">
