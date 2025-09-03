@@ -14,7 +14,7 @@ export default function ContactContent() {
         <div className="flex flex-wrap gap-8 justify-center mt-5 sm:justify-start">
           <div className="w-[150px] h-[150px] bg-secondary/20 shadow-lg rounded-lg mb-2 hover:opacity-80 transition">
             <Image
-              src={"/instagramLogo.svg"}
+              src={"/instagramlogo.svg"}
               width={45}
               height={45}
               alt="Instagram Icon"
@@ -36,10 +36,10 @@ export default function ContactContent() {
           </div>
           <div className="w-[150px] h-[150px] bg-secondary/20 shadow-lg rounded-lg mb-2 hover:opacity-80 transition">
             <Image
-              src={"/gmailLogo.svg"}
+              src={"/gmaillogo.svg"}
               width={45}
               height={45}
-              alt="Instagram Icon"
+              alt="Gmail Icon"
               className="mt-2"
             />
             <p className="font-poppins font-medium text-[12px] ml-2 mt-7">
@@ -58,10 +58,10 @@ export default function ContactContent() {
           </div>
           <div className="w-[150px] h-[150px] bg-secondary/20 shadow-lg rounded-lg mb-2 hover:opacity-80 transition">
             <Image
-              src={"/whatsappLogo.svg"}
+              src={"/whatsapplogo.svg"}
               width={45}
               height={45}
-              alt="Instagram Icon"
+              alt="Whatsapp Icon"
               className="mt-2"
             />
             <p className="font-poppins font-medium text-[12px] ml-2 mt-7">
@@ -80,7 +80,7 @@ export default function ContactContent() {
           </div>
           <div className="w-[150px] h-[150px] bg-secondary/20 shadow-lg rounded-lg mb-2 hover:opacity-80 transition">
             <Image
-              src={"/tiktokLogo.svg"}
+              src={"/tiktoklogo.svg"}
               width={45}
               height={45}
               alt="Instagram Icon"
