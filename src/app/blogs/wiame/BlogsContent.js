@@ -52,47 +52,49 @@ export default function BlogsContent() {
   }, [query]);
 
   return (
-    <div
-      className="flex flex-col items-center justify-center pt-5 pb-10 bg-secondary/5 text-right font-rubik"
-      dir="rtl"
-    >
-      <div className="max-w-6xl w-full px-5 md:px-8 lg:px-12 ">
-        <p className="font-rubik text-sm pointer-cursor">
-          <Link href="/blogs/wiame" className="text-primary underline ">
-            وئام اية صلاح
-          </Link>
-          ,<span> </span>
-          <Link href="/blogs/ghita" className="">
-            غيتة اياسومان
-          </Link>
-        </p>
-        <h1 className="font-reemkufi text-5xl mt-10 text-primary">المدونات</h1>
-        <div className=" mt-5 ">
-          <div className="relative max-w-2xl">
-            {
-              <Form action="/blogs/wiame">
-                <input
-                  name="query"
-                  placeholder="ابحث عن شيء ما"
-                  className="w-full py-[6px] px-[10px]  border-2 border-black rounded-md focus:outline-none pl-7 "
-                />
-                <button
-                  type="submit"
-                  className="absolute left-2 top-2 cursor-pointer"
-                >
-                  <Image
-                    src={"/searchIcon.svg"}
-                    width={25}
-                    height={25}
-                    alt="Search Icon"
+    <Suspense fallback={<div>Loading search params...</div>}>
+      <div
+        className="flex flex-col items-center justify-center pt-5 pb-10 bg-secondary/5 text-right font-rubik"
+        dir="rtl"
+      >
+        <div className="max-w-6xl w-full px-5 md:px-8 lg:px-12 ">
+          <p className="font-rubik text-sm pointer-cursor">
+            <Link href="/blogs/wiame" className="text-primary underline ">
+              وئام اية صلاح
+            </Link>
+            ,<span> </span>
+            <Link href="/blogs/ghita" className="">
+              غيتة اياسومان
+            </Link>
+          </p>
+          <h1 className="font-reemkufi text-5xl mt-10 text-primary">
+            المدونات
+          </h1>
+          <div className=" mt-5 ">
+            <div className="relative max-w-2xl">
+              {
+                <Form action="/blogs/wiame">
+                  <input
+                    name="query"
+                    placeholder="ابحث عن شيء ما"
+                    className="w-full py-[6px] px-[10px]  border-2 border-black rounded-md focus:outline-none pl-7 "
                   />
-                </button>
-              </Form>
-            }
-          </div>
-          <div className="mt-10">
-            <div className="flex gap-5 justify-start flex-wrap">
-              <Suspense fallback={<div>Loading search params...</div>}>
+                  <button
+                    type="submit"
+                    className="absolute left-2 top-2 cursor-pointer"
+                  >
+                    <Image
+                      src={"/searchIcon.svg"}
+                      width={25}
+                      height={25}
+                      alt="Search Icon"
+                    />
+                  </button>
+                </Form>
+              }
+            </div>
+            <div className="mt-10">
+              <div className="flex gap-5 justify-start flex-wrap">
                 {results.length === 0 ? (
                   <p className="text-lg text-black/70">
                     No blogs have been posted yet.
@@ -226,24 +228,24 @@ export default function BlogsContent() {
                     </div>
                   ))
                 )}
-              </Suspense>
+              </div>
             </div>
-          </div>
-          <div className="flex flex-col items-start mt-10">
-            {/* <button className="py-[10px] w-full bg-secondary rounded-md  text-sm cursor-pointer  hover:bg-secondary/80 max-w-72">
+            <div className="flex flex-col items-start mt-10">
+              {/* <button className="py-[10px] w-full bg-secondary rounded-md  text-sm cursor-pointer  hover:bg-secondary/80 max-w-72">
               تحميل المزيد
             </button> */}
-            {session?.user?.email === process.env.NEXT_PUBLIC_WIAME_MAIL && (
-              <Link
-                href="/blogs/wiame/create"
-                className="py-[10px] w-full bg-secondary rounded-md text-center text-sm cursor-pointer mt-5 hover:bg-secondary/80 max-w-72"
-              >
-                إنشاء مدونة
-              </Link>
-            )}
+              {session?.user?.email === process.env.NEXT_PUBLIC_WIAME_MAIL && (
+                <Link
+                  href="/blogs/wiame/create"
+                  className="py-[10px] w-full bg-secondary rounded-md text-center text-sm cursor-pointer mt-5 hover:bg-secondary/80 max-w-72"
+                >
+                  إنشاء مدونة
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Suspense>
   );
 }

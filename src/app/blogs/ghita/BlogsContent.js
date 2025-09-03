@@ -55,44 +55,46 @@ export default function BlogsContent() {
   }, [query]);
 
   return (
-    <div className="flex flex-col items-center justify-center pt-5 pb-10 bg-secondary/5">
-      <div className="max-w-6xl w-full px-5 md:px-8 lg:px-12 ">
-        <p className="font-poppins text-sm pointer-cursor">
-          <Link href="/blogs/ghita" className="text-primary underline ">
-            Ghita Ayasswaman
-          </Link>
-          ,<span> </span>
-          <Link href="/blogs/wiame" className="">
-            Wiame AitSalah
-          </Link>
-        </p>
-        <h1 className="font-dmSerifText text-5xl mt-10 text-primary">Blogs</h1>
-        <div className=" mt-5 ">
-          <div className="relative max-w-2xl">
-            {
-              <Form action="/blogs/ghita">
-                <input
-                  name="query"
-                  placeholder="Search something here"
-                  className="w-full py-[6px] px-[10px] font-poppins border-2 border-black rounded-md focus:outline-none pr-7 "
-                />
-                <button
-                  type="submit"
-                  className="absolute right-2 top-2 cursor-pointer"
-                >
-                  <Image
-                    src={"/searchIcon.svg"}
-                    width={25}
-                    height={25}
-                    alt="Search Icon"
+    <Suspense fallback={<div>Loading Blogs...</div>}>
+      <div className="flex flex-col items-center justify-center pt-5 pb-10 bg-secondary/5">
+        <div className="max-w-6xl w-full px-5 md:px-8 lg:px-12 ">
+          <p className="font-poppins text-sm pointer-cursor">
+            <Link href="/blogs/ghita" className="text-primary underline ">
+              Ghita Ayasswaman
+            </Link>
+            ,<span> </span>
+            <Link href="/blogs/wiame" className="">
+              Wiame AitSalah
+            </Link>
+          </p>
+          <h1 className="font-dmSerifText text-5xl mt-10 text-primary">
+            Blogs
+          </h1>
+          <div className=" mt-5 ">
+            <div className="relative max-w-2xl">
+              {
+                <Form action="/blogs/ghita">
+                  <input
+                    name="query"
+                    placeholder="Search something here"
+                    className="w-full py-[6px] px-[10px] font-poppins border-2 border-black rounded-md focus:outline-none pr-7 "
                   />
-                </button>
-              </Form>
-            }
-          </div>
-          <div className="mt-10">
-            <div className="flex gap-5 justify-start flex-wrap items-stretch">
-              <Suspense fallback={<div>Loading Blogs...</div>}>
+                  <button
+                    type="submit"
+                    className="absolute right-2 top-2 cursor-pointer"
+                  >
+                    <Image
+                      src={"/searchIcon.svg"}
+                      width={25}
+                      height={25}
+                      alt="Search Icon"
+                    />
+                  </button>
+                </Form>
+              }
+            </div>
+            <div className="mt-10">
+              <div className="flex gap-5 justify-start flex-wrap items-stretch">
                 {results.length === 0 ? (
                   <p className="text-lg text-black/70">
                     No blogs have been posted yet.
@@ -229,24 +231,24 @@ export default function BlogsContent() {
                     </div>
                   ))
                 )}
-              </Suspense>
+              </div>
             </div>
-          </div>
-          <div className="flex flex-col items-start mt-10">
-            {/* <button className="py-[10px] w-full bg-secondary rounded-md font-poppins text-sm cursor-pointer  hover:bg-secondary/80 max-w-72">
+            <div className="flex flex-col items-start mt-10">
+              {/* <button className="py-[10px] w-full bg-secondary rounded-md font-poppins text-sm cursor-pointer  hover:bg-secondary/80 max-w-72">
               Load More
             </button> */}
-            {session?.user?.email === process.env.NEXT_PUBLIC_GHITA_MAIL && (
-              <Link
-                href="/blogs/ghita/create"
-                className="py-[10px] w-full bg-secondary rounded-md font-poppins text-sm text-center cursor-pointer mt-5 hover:bg-secondary/80 max-w-72"
-              >
-                Create New Blog
-              </Link>
-            )}
+              {session?.user?.email === process.env.NEXT_PUBLIC_GHITA_MAIL && (
+                <Link
+                  href="/blogs/ghita/create"
+                  className="py-[10px] w-full bg-secondary rounded-md font-poppins text-sm text-center cursor-pointer mt-5 hover:bg-secondary/80 max-w-72"
+                >
+                  Create New Blog
+                </Link>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Suspense>
   );
 }
