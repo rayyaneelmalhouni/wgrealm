@@ -4,6 +4,8 @@ import Link from "next/link";
 import Form from "next/form";
 import Image from "next/image";
 
+import { Suspense } from "react";
+
 import { Client, Databases, Query } from "appwrite";
 import { useSession } from "next-auth/react";
 
@@ -90,139 +92,141 @@ export default function BlogsContent() {
           </div>
           <div className="mt-10">
             <div className="flex gap-5 justify-start flex-wrap">
-              {results.length === 0 ? (
-                <p className="text-lg text-black/70">
-                  No blogs have been posted yet.
-                </p>
-              ) : (
-                results.map((blog) => (
-                  <div
-                    className="bg-secondary/15 rounded-lg px-[10px] py-[10px] w-72 min-h-88"
-                    style={{
-                      boxShadow: "-4px 4px 8px 0 rgba(196,147,86,0.4)",
-                    }}
-                    key={blog.$id}
-                  >
-                    <div className="flex flex-col justify-between h-full">
-                      <div>
-                        <h3 className="text-sm  font-medium">{blog.title}</h3>
-                        <span className="text-sm text-black/90 ">
-                          نشرت في {blog.$createdAt.split("T")[0]}
-                        </span>
-                        <p className="text-sm  mt-2 break-words">
-                          {blog.description}
-                        </p>
-                      </div>
-                      <div>
-                        <div className="flex">
-                          {blog.tags.map((tag, id) => (
-                            <span
-                              className="ml-2 text-black/80 text-sm"
-                              key={id}
-                            >
-                              {tag}
-                            </span>
-                          ))}
+              <Suspense fallback={<div>Loading search params...</div>}>
+                {results.length === 0 ? (
+                  <p className="text-lg text-black/70">
+                    No blogs have been posted yet.
+                  </p>
+                ) : (
+                  results.map((blog) => (
+                    <div
+                      className="bg-secondary/15 rounded-lg px-[10px] py-[10px] w-72 min-h-88"
+                      style={{
+                        boxShadow: "-4px 4px 8px 0 rgba(196,147,86,0.4)",
+                      }}
+                      key={blog.$id}
+                    >
+                      <div className="flex flex-col justify-between h-full">
+                        <div>
+                          <h3 className="text-sm  font-medium">{blog.title}</h3>
+                          <span className="text-sm text-black/90 ">
+                            نشرت في {blog.$createdAt.split("T")[0]}
+                          </span>
+                          <p className="text-sm  mt-2 break-words">
+                            {blog.description}
+                          </p>
                         </div>
-                        <div className="flex justify-between items-center mt-3">
-                          <div className="flex items-center gap-2">
-                            <div className="flex items-center gap-1">
-                              {blog.likes.includes(session?.user?.email) ? (
-                                <button
+                        <div>
+                          <div className="flex">
+                            {blog.tags.map((tag, id) => (
+                              <span
+                                className="ml-2 text-black/80 text-sm"
+                                key={id}
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                          <div className="flex justify-between items-center mt-3">
+                            <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-1">
+                                {blog.likes.includes(session?.user?.email) ? (
+                                  <button
+                                    className="cursor-pointer"
+                                    onClick={() =>
+                                      removeLike(
+                                        blog.$id,
+                                        session.user.email,
+                                        setResults,
+                                        true
+                                      )
+                                    }
+                                  >
+                                    <Image
+                                      src={"/filledHeartIcon.png"}
+                                      width={28}
+                                      height={28}
+                                      alt="Read More"
+                                    />
+                                  </button>
+                                ) : (
+                                  <button
+                                    className="cursor-pointer"
+                                    onClick={() =>
+                                      addLike(
+                                        blog.$id,
+                                        session?.user?.email,
+                                        setResults,
+                                        true
+                                      )
+                                    }
+                                  >
+                                    <Image
+                                      src={"/emptyHeartIcon.svg"}
+                                      width={28}
+                                      height={28}
+                                      alt="Read More"
+                                    />
+                                  </button>
+                                )}
+                                <span> {blog.likes.length} </span>
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <Link
+                                  href={`/blogs/wiame/${blog.$id}#comments`}
                                   className="cursor-pointer"
-                                  onClick={() =>
-                                    removeLike(
-                                      blog.$id,
-                                      session.user.email,
-                                      setResults,
-                                      true
-                                    )
-                                  }
                                 >
                                   <Image
-                                    src={"/filledHeartIcon.png"}
+                                    src={"/commentIcon.svg"}
                                     width={28}
                                     height={28}
                                     alt="Read More"
                                   />
-                                </button>
-                              ) : (
-                                <button
-                                  className="cursor-pointer"
-                                  onClick={() =>
-                                    addLike(
-                                      blog.$id,
-                                      session?.user?.email,
-                                      setResults,
-                                      true
-                                    )
-                                  }
-                                >
-                                  <Image
-                                    src={"/emptyHeartIcon.svg"}
-                                    width={28}
-                                    height={28}
-                                    alt="Read More"
-                                  />
-                                </button>
-                              )}
-                              <span> {blog.likes.length} </span>
+                                </Link>
+                                <span> {blog?.commentsId?.length} </span>
+                              </div>
                             </div>
-                            <div className="flex items-center gap-1">
-                              <Link
-                                href={`/blogs/wiame/${blog.$id}#comments`}
+                            {session?.user?.email ===
+                              process.env.NEXT_PUBLIC_WIAME_MAIL && (
+                              <button
                                 className="cursor-pointer"
+                                onClick={async () => {
+                                  try {
+                                    await database.deleteDocument(
+                                      DATABASE_ID,
+                                      COLLECTION_ID,
+                                      blog.$id
+                                    );
+                                    setResults((results) =>
+                                      results.filter(
+                                        (item) => item.$id !== blog.$id
+                                      )
+                                    );
+                                  } catch (error) {
+                                    console.log(error);
+                                  }
+                                }}
                               >
                                 <Image
-                                  src={"/commentIcon.svg"}
-                                  width={28}
-                                  height={28}
-                                  alt="Read More"
+                                  src={"/trashIcon.svg"}
+                                  width={24}
+                                  height={24}
+                                  alt="Delete"
                                 />
-                              </Link>
-                              <span> {blog?.commentsId?.length} </span>
-                            </div>
+                              </button>
+                            )}
                           </div>
-                          {session?.user?.email ===
-                            process.env.NEXT_PUBLIC_WIAME_MAIL && (
-                            <button
-                              className="cursor-pointer"
-                              onClick={async () => {
-                                try {
-                                  await database.deleteDocument(
-                                    DATABASE_ID,
-                                    COLLECTION_ID,
-                                    blog.$id
-                                  );
-                                  setResults((results) =>
-                                    results.filter(
-                                      (item) => item.$id !== blog.$id
-                                    )
-                                  );
-                                } catch (error) {
-                                  console.log(error);
-                                }
-                              }}
-                            >
-                              <Image
-                                src={"/trashIcon.svg"}
-                                width={24}
-                                height={24}
-                                alt="Delete"
-                              />
+                          <Link href={`/blogs/wiame/${blog.$id}`}>
+                            <button className="py-[10px] w-full bg-secondary rounded-md  text-sm cursor-pointer mt-5 hover:bg-secondary/80">
+                              اقرأ المزيد
                             </button>
-                          )}
+                          </Link>
                         </div>
-                        <Link href={`/blogs/wiame/${blog.$id}`}>
-                          <button className="py-[10px] w-full bg-secondary rounded-md  text-sm cursor-pointer mt-5 hover:bg-secondary/80">
-                            اقرأ المزيد
-                          </button>
-                        </Link>
                       </div>
                     </div>
-                  </div>
-                ))
-              )}
+                  ))
+                )}
+              </Suspense>
             </div>
           </div>
           <div className="flex flex-col items-start mt-10">
